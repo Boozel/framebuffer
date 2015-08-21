@@ -45,6 +45,20 @@ int main(int argc, char **argv)
 			fprintf(stderr, "\n\nStride must be equal or less than width.\n\n");
 			return 0;
 		}
+
+		else if(width < 8)
+		{
+			fprintf(stderr, "\n\nWidth: %d\nHeight: %d\nStride: %d\n\n", width, height, stride);
+			fprintf(stderr, "\n\nWidth must be greater than 8.\n\n");
+			return 0;
+		}
+
+		else if(height < 1)
+		{
+			fprintf(stderr, "\n\nWidth: %d\nHeight: %d\nStride: %d\n\n", width, height, stride);
+			fprintf(stderr, "\n\nWidth must be greater than 0.\n\n");
+			return 0;
+		}
 	}
 
 	//Open image file
