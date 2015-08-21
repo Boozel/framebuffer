@@ -48,7 +48,7 @@ void generateImg(int32_t incolor, FILE *fp)
 			break;
 		default:			//Garbage
 			color[0] = 100;	  	/* red */
-			color[1] = 100; 	/* green */
+			color[1] = 175; 	/* green */
 			color[2] = 100; 	/* blue */
 			break;
 			

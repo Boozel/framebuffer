@@ -89,7 +89,6 @@ void fillBuffer(void *fb_buf, int fb_h, int fb_w, int fb_stride, int32_t *fb_pix
 			for(i = 0; i < barWidth; i++)		//For (the width of each color bar...)
 			{
 				*pBuf++ = currentColor;		//Store the current color in the buffer and move to the next address.
-				generateImg(currentColor, inFile);
 			}
 
 			if(barRemainder > 0)			//If there are some remaining pixels, print up to one extra pixel per-line to account for this.
@@ -125,11 +124,13 @@ void printBuffer(void *fb_buf, int fb_width, int fb_height, int stride)
 
 			for(i = 0; i < barWidth; i++)
 			{
+				generateImg(*pBuf, inFile);
 				printf("%d ", *pBuf++);
 			}
 
 			if(barRemainder > 0)
 			{
+				generateImg(*pBuf, inFile);
 				printf("%d ", *pBuf++);
 				barRemainder--;
 			}
