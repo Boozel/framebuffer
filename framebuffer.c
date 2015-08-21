@@ -1,3 +1,9 @@
+/************************/
+/*	FrameBuffer	*/
+/*			*/
+/*  @Gerritt Dorland	*/
+/************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>	//for Windows......
@@ -5,9 +11,11 @@
 
 #define NUMBARS 8
 
+//Function definitions
 void fillBuffer(void *fb_buf, int fb_h, int fb_w, int fb_stride, int32_t *fb_pixval);
 
 void printBuffer(void *fb_buf, int fb_width, int fb_height, int stride, FILE *inFile);
+/********************/
 
 int main(int argc, char **argv)
 {
@@ -26,6 +34,7 @@ int main(int argc, char **argv)
 			return 0;
 		}
 
+		//Set values for image size/stride from command line
 		width = atoi(argv[1]);
 		height = atoi(argv[2]);
 		stride = atoi(argv[3]);
@@ -38,16 +47,19 @@ int main(int argc, char **argv)
 		}
 	}
 
-	imageFile = fopen("out.ppm", "wb"); /* b - binary mode */
-	(void) fprintf(imageFile, "P6\n%d %d\n255\n", width, height);
+	//Open image file
+	imageFile = fopen("out.ppm", "wb");
+	(void) fprintf(imageFile, "P6\n%d %d\n255\n", width, height);	//print header for image.
 
 	/*
-		setup nonsense
+		-- setup nonsense --
 	*/
 	int count;
 	
 	fprintf(stderr, "\nWidth: %d\nHeight: %d\nStride: %d\n\n", width, height, stride);
-	count = height * width * (stride - width);
+
+	//Multiplying by sizeof(uint32_t) unnecessary - calloc takes care of the address size. Only need a pixel count!
+	count = height * stride;
 
 	frameBuffer = (int32_t*)calloc(count, sizeof(int32_t));		//Allocate enough memory for every pixel, including the stride
 
@@ -124,13 +136,13 @@ void printBuffer(void *fb_buf, int fb_width, int fb_height, int stride, FILE* in
 
 			for(i = 0; i < barWidth; i++)
 			{
-				generateImg(*pBuf, inFile);
+				generateImg(*pBuf, inFile);	//Print pixel to image file
 				printf("%d ", *pBuf++);
 			}
 
 			if(barRemainder > 0)
 			{
-				generateImg(*pBuf, inFile);
+				generateImg(*pBuf, inFile);	//Print pixel to image file
 				printf("%d ", *pBuf++);
 				barRemainder--;
 			}
