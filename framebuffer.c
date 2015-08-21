@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 		else if(height < 1)
 		{
 			fprintf(stderr, "\n\nWidth: %d\nHeight: %d\nStride: %d\n\n", width, height, stride);
-			fprintf(stderr, "\n\nWidth must be greater than 0.\n\n");
+			fprintf(stderr, "\n\nHeight must be greater than 0.\n\n");
 			return 0;
 		}
 	}
