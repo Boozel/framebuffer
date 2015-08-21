@@ -7,11 +7,11 @@ all: framebuffer framebuffer.exe clean
 
 ##########
 
-framebuffer: framebuffer.c
-	gcc -o framebuffer framebuffer.c
+framebuffer: generateImg.c framebuffer.c
+	gcc -o framebuffer generateImg.c framebuffer.c
 
-framebuffer.exe: framebuffer.o
-	i586-mingw32msvc-gcc -o framebuffer.exe framebuffer.c
+framebuffer.exe: framebuffer.c generateImg.c
+	i586-mingw32msvc-gcc -o framebuffer.exe framebuffer.c generateImg.c
 
 ##########
 

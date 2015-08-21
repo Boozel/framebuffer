@@ -3,12 +3,12 @@ CFLAGS = -Wall -Wextra
 
 ##########
 
-all: framebuffer clean
+all: framebuffer framebuffer.exe clean
 
 ##########
 
-framebuffer: framebuffer.c
-	gcc -o framebuffer framebuffer.c
+framebuffer: generateImg.c framebuffer.c
+	gcc -o framebuffer generateImg.c framebuffer.c
 
 ##########
 

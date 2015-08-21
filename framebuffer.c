@@ -1,17 +1,17 @@
-//TODO: Stride and extra-line errors
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>	//for Windows......
+#include "generateImg.h"
 
 #define NUMBARS 8
 
-void fillBuffer(void *fb_buf, int fb_h, int fb_w, int fb_stride, int32_t *fb_pixval);
+void fillBuffer(void *fb_buf, int fb_h, int fb_w, int fb_stride, int32_t *fb_pixval, FILE *inFile);
 
 void printBuffer(void *fb_buf, int fb_width, int fb_height, int stride);
 
 int main(int argc, char **argv)
 {
+	FILE *imageFile;
 	int32_t pixVal[8] = {1,2,3,4,5,6,7,8};
 	int width = 1080;
 	int height = 720;
@@ -38,6 +38,8 @@ int main(int argc, char **argv)
 		}
 	}
 
+	imageFile = fopen("out.ppm", "wb"); /* b - binary mode */
+	(void) fprintf(imageFile, "P6\n%d %d\n255\n", width, height);
 
 	/*
 		setup nonsense
@@ -49,19 +51,20 @@ int main(int argc, char **argv)
 
 	frameBuffer = (int32_t*)calloc(count, sizeof(int32_t));		//Allocate enough memory for every pixel, including the stride
 
-	fillBuffer(frameBuffer, height, width, stride, pixVal);
+	fillBuffer(frameBuffer, height, width, stride, pixVal, imageFile);
 	printBuffer(frameBuffer, width, height, stride);
 
 	free(frameBuffer);
 
 	fprintf(stderr, "\n\n>> Job's Done <<\n\n");
-
+	
+	(void)fclose(imageFile);
 	return 0;
 }
 
 //			Interview Section
 //-------------------------------------------------------------------
-void fillBuffer(void *fb_buf, int fb_h, int fb_w, int fb_stride, int32_t *fb_pixval)
+void fillBuffer(void *fb_buf, int fb_h, int fb_w, int fb_stride, int32_t *fb_pixval, FILE* inFile)
 {
 	//Variables
 	int i = 0, q, z;
@@ -86,11 +89,13 @@ void fillBuffer(void *fb_buf, int fb_h, int fb_w, int fb_stride, int32_t *fb_pix
 			for(i = 0; i < barWidth; i++)		//For (the width of each color bar...)
 			{
 				*pBuf++ = currentColor;		//Store the current color in the buffer and move to the next address.
+				generateImg(currentColor, inFile);
 			}
 
 			if(barRemainder > 0)			//If there are some remaining pixels, print up to one extra pixel per-line to account for this.
 			{					//	As there can only be up to 7 extra pixels, this method works well.
 				*pBuf++ = currentColor;
+				generateImg(currentColor, inFile);
 				barRemainder--;
 			}
 		}
