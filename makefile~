@@ -1,0 +1,16 @@
+CC = gcc
+CFLAGS = -Wall -Wextra
+
+##########
+
+all: framebuffer clean
+
+##########
+
+framebuffer: framebuffer.c
+	gcc -o framebuffer framebuffer.c
+
+##########
+
+clean:
+	rm -f *.o
