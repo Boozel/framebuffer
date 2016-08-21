@@ -1,17 +1,18 @@
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -ggdb3 -O2
+INCLUDE = -I/usr/include/GL -I/usr/include/GLFW
+LIBS = -lGL -lGLU -lGLEW -lglfw
+##########
+
+all: framebuffer clean
 
 ##########
 
-all: framebuffer framebuffer.exe clean
+framebuffer: generateImg.c framebuffer.c oglwindow.c
+	gcc  $(CFLAGS) -o framebuffer $(INCLUDE)  generateImg.c framebuffer.c oglwindow.c $(LIBS)
 
-##########
-
-framebuffer: generateImg.c framebuffer.c
-	gcc -o framebuffer generateImg.c framebuffer.c
-
-framebuffer.exe: framebuffer.c generateImg.c
-	i586-mingw32msvc-gcc -o framebuffer.exe framebuffer.c generateImg.c
+#framebuffer.exe: framebuffer.c generateImg.c
+#	i586-mingw32msvc-gcc -o framebuffer.exe framebuffer.c generateImg.c
 
 ##########
 

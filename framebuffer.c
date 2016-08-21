@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdint.h>	//for Windows......
 #include "generateImg.h"
+#include "oglwindow.h"
 
 #define NUMBARS 8
 
@@ -166,4 +167,5 @@ void printBuffer(void *fb_buf, int fb_width, int fb_height, int stride, FILE* in
 
 		printf("\n");
 	}
+   openWindow();
 }
